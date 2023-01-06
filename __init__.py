@@ -14,35 +14,55 @@ class FilmsAndClipsSkill(OVOSCommonPlaybackSkill):
         self.supported_media = [MediaType.MOVIE,
                                 MediaType.GENERIC]
         self.skill_icon = self.default_bg = join(dirname(__file__), "ui", "filmsandclips_icon.jpg")
+
+        bl = ["trailer", "teaser", "movie scene",
+              "movie clip", "behind the scenes",
+              "Movie Preview", "Clip #",
+              "soundtrack", " OST", "opening theme"]
         self.archive = YoutubeMonitor(db_name="FilmsAndClips",
                                       min_duration=30 * 60,
                                       logger=LOG,
-                                      blacklisted_kwords=["trailer", "teaser", "movie scene",
-                                                          "movie clip", "behind the scenes",
-                                                          "Movie Preview", "Clip #",
-                                                          "soundtrack", " OST", "opening theme"])
+                                      blacklisted_kwords=bl)
+        self.archive_en = YoutubeMonitor(db_name="FilmsAndClips_en",
+                                         min_duration=30 * 60,
+                                         logger=LOG,
+                                         blacklisted_kwords=bl)
+        self.archive_es = YoutubeMonitor(db_name="FilmsAndClips_es",
+                                         min_duration=30 * 60,
+                                         logger=LOG,
+                                         blacklisted_kwords=bl)
+        self.archive_it = YoutubeMonitor(db_name="FilmsAndClips_it",
+                                         min_duration=30 * 60,
+                                         logger=LOG,
+                                         blacklisted_kwords=bl)
+        self.archive_de = YoutubeMonitor(db_name="FilmsAndClips_de",
+                                         min_duration=30 * 60,
+                                         logger=LOG,
+                                         blacklisted_kwords=bl)
+        self.archive_fr = YoutubeMonitor(db_name="FilmsAndClips_fr",
+                                         min_duration=30 * 60,
+                                         logger=LOG,
+                                         blacklisted_kwords=bl)
+        self.archive_pt = YoutubeMonitor(db_name="FilmsAndClips_pt",
+                                         min_duration=30 * 60,
+                                         logger=LOG,
+                                         blacklisted_kwords=bl)
 
     def initialize(self):
-        # per lang channel
-        if self.lang.startswith("en"):
-            url = "https://www.youtube.com/channel/UCbRPdPJpFz4f4pHeIhEck2w"
-        elif self.lang.startswith("es"):
-            url = "https://www.youtube.com/channel/UCO2thUSgz78cRlAVW5iP3pw"
-        elif self.lang.startswith("it"):
-            url = "https://www.youtube.com/channel/UCGoazA0Z4aoBccf3cdrBRfA"
-        elif self.lang.startswith("de"):
-            url = "https://www.youtube.com/channel/UCZl0iSBsqAiY59Ni_0vRVfw"
-        elif self.lang.startswith("fr"):
-            url = "https://www.youtube.com/channel/UCwOmaHmbjx5J_jG5IAg2Eqw"
-        elif self.lang.startswith("pt"):
-            url = "https://www.youtube.com/channel/UCcG2X4bDgt1qbaKKlcQTXpg"
-        else:  # main channel
-            url = "https://www.youtube.com/c/FilmandClips"
-        bootstrap = f"https://raw.githubusercontent.com/OpenJarbas/streamindex/main/{self.archive.db.name}.json"
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips/raw/dev/bootstrap.json"
         self.archive.bootstrap_from_url(bootstrap)
-        self.archive.monitor(url)
-        self.archive.setDaemon(True)
-        self.archive.start()
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_en/raw/dev/bootstrap.json"
+        self.archive_en.bootstrap_from_url(bootstrap)
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_es/raw/dev/bootstrap.json"
+        self.archive_es.bootstrap_from_url(bootstrap)
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_pt/raw/dev/bootstrap.json"
+        self.archive_pt.bootstrap_from_url(bootstrap)
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_it/raw/dev/bootstrap.json"
+        self.archive_it.bootstrap_from_url(bootstrap)
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_de/raw/dev/bootstrap.json"
+        self.archive_de.bootstrap_from_url(bootstrap)
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_fr/raw/dev/bootstrap.json"
+        self.archive_fr.bootstrap_from_url(bootstrap)
 
     # matching
     def match_skill(self, phrase, media_type):
@@ -77,6 +97,81 @@ class FilmsAndClipsSkill(OVOSCommonPlaybackSkill):
             "bg_image": video["thumbnail"],
             "skill_id": self.skill_id
         } for video in self.archive.sorted_entries()][:num_entries]
+
+        if self.lang.startswith("en"):
+            pl += [{
+                "title": video["title"],
+                "image": video["thumbnail"],
+                "match_confidence": 70,
+                "media_type": MediaType.MOVIE,
+                "uri": "youtube//" + video["url"],
+                "playback": PlaybackType.VIDEO,
+                "skill_icon": self.skill_icon,
+                "bg_image": video["thumbnail"],
+                "skill_id": self.skill_id
+            } for video in self.archive_en.sorted_entries()][:num_entries]
+
+        elif self.lang.startswith("pt"):
+            pl += [{
+                "title": video["title"],
+                "image": video["thumbnail"],
+                "match_confidence": 70,
+                "media_type": MediaType.MOVIE,
+                "uri": "youtube//" + video["url"],
+                "playback": PlaybackType.VIDEO,
+                "skill_icon": self.skill_icon,
+                "bg_image": video["thumbnail"],
+                "skill_id": self.skill_id
+            } for video in self.archive_pt.sorted_entries()][:num_entries]
+        elif self.lang.startswith("es"):
+            pl += [{
+                "title": video["title"],
+                "image": video["thumbnail"],
+                "match_confidence": 70,
+                "media_type": MediaType.MOVIE,
+                "uri": "youtube//" + video["url"],
+                "playback": PlaybackType.VIDEO,
+                "skill_icon": self.skill_icon,
+                "bg_image": video["thumbnail"],
+                "skill_id": self.skill_id
+            } for video in self.archive_es.sorted_entries()][:num_entries]
+        elif self.lang.startswith("fr"):
+            pl += [{
+                "title": video["title"],
+                "image": video["thumbnail"],
+                "match_confidence": 70,
+                "media_type": MediaType.MOVIE,
+                "uri": "youtube//" + video["url"],
+                "playback": PlaybackType.VIDEO,
+                "skill_icon": self.skill_icon,
+                "bg_image": video["thumbnail"],
+                "skill_id": self.skill_id
+            } for video in self.archive_fr.sorted_entries()][:num_entries]
+        elif self.lang.startswith("it"):
+            pl += [{
+                "title": video["title"],
+                "image": video["thumbnail"],
+                "match_confidence": 70,
+                "media_type": MediaType.MOVIE,
+                "uri": "youtube//" + video["url"],
+                "playback": PlaybackType.VIDEO,
+                "skill_icon": self.skill_icon,
+                "bg_image": video["thumbnail"],
+                "skill_id": self.skill_id
+            } for video in self.archive_it.sorted_entries()][:num_entries]
+        elif self.lang.startswith("de"):
+            pl += [{
+                "title": video["title"],
+                "image": video["thumbnail"],
+                "match_confidence": 70,
+                "media_type": MediaType.MOVIE,
+                "uri": "youtube//" + video["url"],
+                "playback": PlaybackType.VIDEO,
+                "skill_icon": self.skill_icon,
+                "bg_image": video["thumbnail"],
+                "skill_id": self.skill_id
+            } for video in self.archive_de.sorted_entries()][:num_entries]
+
         return {
             "match_confidence": score,
             "media_type": MediaType.MOVIE,
