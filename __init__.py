@@ -51,17 +51,17 @@ class FilmsAndClipsSkill(OVOSCommonPlaybackSkill):
     def initialize(self):
         bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips/raw/dev/bootstrap.json"
         self.archive.bootstrap_from_url(bootstrap)
-        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_en/raw/dev/bootstrap.json"
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips/raw/dev/bootstrap_en.json"
         self.archive_en.bootstrap_from_url(bootstrap)
-        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_es/raw/dev/bootstrap.json"
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips/raw/dev/bootstrap_es.json"
         self.archive_es.bootstrap_from_url(bootstrap)
-        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_pt/raw/dev/bootstrap.json"
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips/raw/dev/bootstrap_pt.json"
         self.archive_pt.bootstrap_from_url(bootstrap)
-        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_it/raw/dev/bootstrap.json"
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips/raw/dev/bootstrap_it.json"
         self.archive_it.bootstrap_from_url(bootstrap)
-        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_de/raw/dev/bootstrap.json"
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips/raw/dev/bootstrap_de.json"
         self.archive_de.bootstrap_from_url(bootstrap)
-        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips_fr/raw/dev/bootstrap.json"
+        bootstrap = "https://github.com/JarbasSkills/skill-filmsandclips/raw/dev/bootstrap_fr.json"
         self.archive_fr.bootstrap_from_url(bootstrap)
 
     # matching
